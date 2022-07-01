@@ -12,6 +12,7 @@ CREATE TABLE Blogs (
 	FOREIGN KEY (authorid) REFERENCES Authors(id));
     
 ALTER TABLE Blogs ADD FOREIGN KEY (authorid) REFERENCES Authors(id);
+ALTER TABLE Blogs ALTER COLUMN content VARCHAR
 
 DROP TABLE IF EXISTS Authors;
 CREATE TABLE Authors (
@@ -70,8 +71,9 @@ DELIMITER ;
 CALL spBlogTags (2);
 
 SELECT * FROM Blogs;
-SELECT * FROM BlogTags;
+SELECT * FROM BlogTags WHERE blogid=1;
 SELECT * FROM Hashtags;
+SELECT Blogs.*, BlogTags.tagid, Authors.name, Authors.username, Authors.email, Authors._created FROM Blogs JOIN BlogTags ON BlogTags.blogid = Blogs.id JOIN Authors ON Authors.id = Blogs.authorid WHERE authorid=1;
 
 
 
