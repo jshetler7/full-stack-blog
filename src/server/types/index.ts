@@ -1,29 +1,45 @@
-export interface Users {
+export interface Authors {
     id: number;
     name: string;
+    username: string;
     email: string;
-    password: string;
     _created: Date | string;
+    _updated: Date | string;
 };
 
-export interface Chirps {
+export interface Blogs {
     id: number;
-    userid: number;
+    title: string;
     content: string;
-    location: string;
+    authorid: number;
     _created: Date | string;
+    _updated: Date | string;
 };
 
-export interface CreatableUpdatableChirp {
+export interface CreatableUpdatableBlog {
     content: string;
-    userid: string;
+    authorid: string;
 }
 
-export interface Mentions {
-    userid: number;
-    chirpid: number;
-};
+export interface Hashtags {
+    id: number;
+    tagname: string;
+    _created: Date | string;
+    _updated: Date | string;
+}
 
-export interface chirpsWithUser extends Chirps {
+export interface BlogTags {
+    blogid: number;
+    tagid: number
+}
+
+export interface BlogsWithAuthor extends Blogs {
     name: string;
+    email: string;
+}
+
+export interface BlogWithEverything extends Blogs {
+    name: string;
+    tagid: number;
+    tagname: string;
 }

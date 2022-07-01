@@ -34,21 +34,15 @@ const Navbar = () => {
           </a>
         </li>
         <li className="nav-item">
-          <a href="/timeline" className="nav-link text-light font-italic">
+          <a href="/collection" className="nav-link text-light font-italic">
             <i className="fa fa-address-card mr-3 text-light fa-fw"></i>
-            Timeline
+            Collection
           </a>
         </li>
         <li className="nav-item">
           <a href="/compose" className="nav-link text-light font-italic">
             <i className="fa fa-cubes mr-3 text-light fa-fw"></i>
             Compose
-          </a>
-        </li>
-        <li className="nav-item">
-          <a href="#" className="nav-link text-light font-italic">
-            <i className="fa fa-picture-o mr-3 text-light fa-fw"></i>
-            Gallery
           </a>
         </li>
       </ul>

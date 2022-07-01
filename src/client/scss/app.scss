@@ -21,7 +21,24 @@ $theme-colors: (
 	// add any additional color below
 );
 
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+#createBlogContent {
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#createBlogContent :focus {
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  box-shadow: none;
+}
 
 .vertical-nav {
     min-width: 17rem;
@@ -34,6 +51,10 @@ $theme-colors: (
     transition: all 0.4s;
     background-color: #1d1d1d;
   }
+
+#sidebar {
+  z-index: 10;
+}
   
 #sidebarCollapse.active {
     margin-left: -5rem;
@@ -44,7 +65,9 @@ $theme-colors: (
   
   #sidebar.active {
     margin-right: -17rem;
+    z-index: 10;
   }
+
   
   @media (max-width: 350px) {
     #sidebarCollapse {

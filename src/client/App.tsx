@@ -2,12 +2,12 @@ import * as React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./views/Home";
-import Timeline from "./views/Timeline";
+import Collection from "./views/Collection";
 import Compose from "./views/Compose";
-import TimelineSpec from './views/TimelineSpec';
-import UserSpec from "./views/UserSpec";
+import CollectionSpec from './views/CollectionSpec';
 import Navbar from "./components/Navbar";
-import EditChirp from "./views/EditChirp";
+import EditBlog from "./views/EditBlog";
+import AuthorSpec from "./views/AuthorSpec";
 
 
 const App = () => {
@@ -18,10 +18,10 @@ const App = () => {
     <Navbar />
     <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/timeline" element={<Timeline />} />
-    <Route path="/timeline/:id" element={<TimelineSpec />} />
-    <Route path="/timeline/users/:id" element={<UserSpec />} />
-    <Route path="/timeline/:id/edit" element={<EditChirp />} />
+    <Route path="/collection" element={<Collection />} />
+    <Route path="/collection/:id" element={<CollectionSpec />} />
+    <Route path="/collection/authors/:id" element={<AuthorSpec />} />
+    <Route path="/collection/:id/edit" element={<EditBlog />} />
     <Route path="/compose" element={<Compose />} />
     </Routes>
     </BrowserRouter>

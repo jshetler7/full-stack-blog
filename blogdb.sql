@@ -1,0 +1,103 @@
+CREATE SCHEMA blog;
+USE blog;
+
+DROP TABLE IF EXISTS Blogs;
+CREATE TABLE Blogs (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	title VARCHAR(256) NOT NULL,
+	content VARCHAR(500) NOT NULL,
+	authorid INT,
+	_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    _updated DATETIME ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY (authorid) REFERENCES Authors(id));
+    
+ALTER TABLE Blogs ADD FOREIGN KEY (authorid) REFERENCES Authors(id);
+
+DROP TABLE IF EXISTS Authors;
+CREATE TABLE Authors (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(64) NOT NULL,
+    username VARCHAR(64) NOT NULL,
+    email VARCHAR(128) NOT NULL,
+    _created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    _updated DATETIME ON UPDATE CURRENT_TIMESTAMP);
+    
+DROP TABLE IF EXISTS Tags;
+CREATE TABLE Hashtags (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    tagname VARCHAR(32),
+    _created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    _updated DATETIME ON UPDATE CURRENT_TIMESTAMP);
+    
+DROP TABLE IF EXISTS BlogTags;
+CREATE TABLE BlogTags (
+blogid INT,
+tagid INT,
+PRIMARY KEY (blogid, tagid),
+FOREIGN KEY (blogid) REFERENCES Blogs(id),
+FOREIGN KEY (tagid) REFERENCES Hashtags(id));
+
+INSERT INTO Authors (name, username, email) VALUES ('Jared', 'Zearo', 'zearo@test.io'), ('Austin', 'Quiserix', 'quiserix@test.io');
+
+INSERT INTO Blogs (title, content, authorid) VALUES ('Blogs', 'this is a blog', 1), ('The prequels are better than the original trilogy', 'Minus attack of the clones, of course. that anakin and padme relationship was cringe af.', 2);
+
+INSERT INTO Hashtags (tagname) VALUES ('Writing'), ('Star Wars'), ('Awesome');
+
+INSERT INTO BlogTags (blogid, tagid) VALUES (1, 3), (1, 1), (2, 2), (2, 3);
+
+SELECT Hashtags.tagname, Hashtags.id FROM BlogTags JOIN Hashtags ON Hashtags.id = Blogtags.tagid WHERE blogid = 1;
+
+SELECT Hashtags.tagname, Hashtags.id FROM BlogTags JOIN Hashtags ON Hashtags.id = Blogtags.tagid WHERE blogid = 2;
+
+SELECT Authors.name, Blogs.*, blogTags.tagid, Hashtags.tagname
+FROM Authors
+INNER JOIN Blogs ON Blogs.authorid = Authors.id
+INNER JOIN blogTags ON blogid = Blogs.id
+INNER JOIN Hashtags ON Hashtags.id = blogTags.tagid; 
+
+
+DELIMITER $$
+
+CREATE PROCEDURE spBlogTags (id INT) 
+BEGIN
+
+SELECT Hashtags.tagname, Hashtags.id FROM BlogTags JOIN Hashtags ON Hashtags.id = Blogtags.tagid WHERE blogid = id;
+
+END$$
+
+DELIMITER ;
+
+CALL spBlogTags (2);
+
+SELECT * FROM Blogs;
+SELECT * FROM BlogTags;
+SELECT * FROM Hashtags;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

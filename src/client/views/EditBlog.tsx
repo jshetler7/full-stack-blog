@@ -1,62 +1,81 @@
 import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Authors, Hashtags } from "../types";
-import { useNavigate } from "react-router-dom";
+import { BlogsWithAuthor, Authors, Hashtags } from "../types";
 import { v4 as uuidv4 } from 'uuid';
 
-const Compose = () => {
-  const nav = useNavigate();
+const EditPost = () => {
+  const [blogs, setBlogs] = useState<BlogsWithAuthor>();
   const [authors, setAuthors] = useState<Authors[]>([]);
   const [content, setContent] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  const [selectedAuthor, setSelectedAuthor] = useState<number>(0);
+  const [authorid, setAuthorId] = useState<number>(0);
   const [tags, setTags] = useState<Hashtags[]>([]);
   const [selectedTag, setSelectedTag] = useState<number>(0);
+
+  const { id } = useParams();
+  const nav = useNavigate();
 
   useEffect(() => {
     fetch("/api/authors")
       .then((res) => res.json())
-      .then((data: Authors[]) => {
-        setAuthors(data);
+      .then((data) => setAuthors(data))
+      .catch((e) => console.error(e));
+
+    fetch(`/api/blogs/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBlogs(data);
+        setAuthorId(data.authorid);
+        setContent(data.content);
+        setTitle(data.title);
       })
       .catch((e) => console.error(e));
-  }, []);
 
-  useEffect(() => {
     fetch("/api/tags")
       .then((res) => res.json())
-      .then((data) => setTags(data))
-      .catch((err) => console.error(err));
+      .then(data => setTags(data))
+      .catch(e => console.error(e));
   }, []);
 
-  const handleSubmitBlog = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!selectedAuthor) return;
-    fetch("/api/blogs", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, content, authorid: selectedAuthor }),
+
+    if (!confirm("Are you SURE you want to delete this blog?")) return;
+
+    fetch(`/api/blogs/${id}`, {
+      method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
-        const blogid = data.id;
-        fetch("/api/blogtags", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ blogid, tagid: selectedTag }),
-        });
-        nav(`/collection/${data.id}`);
+        nav("/collection");
       })
       .catch((e) => console.error(e));
   };
 
+  const handleSaveUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!authorid) return alert('Fill out the author selector!');
+    if (!content) return alert('Fill out the blog content!!');
+
+    fetch(`/api/blogs/${id}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ authorid, content })
+    })
+      .then(res => res.json())
+      .then(data => {
+        nav(`/collection/${id}`);
+      })
+      .catch(e => console.error(e));
+  };
+
   return (
-    <main className="container">
-        <h3 className="text-light text-start">Blog</h3>
+    <div className="container">
+      <h3 className="text-light text-start">Blog</h3>
       <section className="row justify-content-center mt-5">
         <div className="card col-12 col-md-10 shadow-lg">
           <div className="card-body">
@@ -66,15 +85,13 @@ const Compose = () => {
                   <div className="card-title text-light">
                     <select
                       className="form-select"
-                      value={selectedAuthor}
-                      onChange={(e) =>
-                        setSelectedAuthor(Number(e.target.value))
-                      }
+                      value={authorid}
+                      onChange={(e) => setAuthorId(Number(e.target.value))}
                     >
                       <option value="0">Select an Author!</option>
                       {authors.map((author) => (
                         <option
-                          key={`author-option-${author.id}`}
+                          key={`authors-option-${author.id}`}
                           value={author.id}
                         >
                           {author.name}
@@ -86,7 +103,7 @@ const Compose = () => {
                       value={selectedTag}
                       onChange={(e) => setSelectedTag(Number(e.target.value))}
                     >
-                      <option value="0">Select A Tag!</option>
+                      <option value={0} >Select A Tag!</option>
                       {tags.map((tag) => (
                         <option key={uuidv4()} value={tag.id}>
                           {tag.tagname}
@@ -99,29 +116,30 @@ const Compose = () => {
               <div className="row g-3">
                 <div className="col-12 text-start input-group">
                   <input
-                    type="text"
                     value={title}
                     className="form-control"
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Title"
                   />
                 </div>
-                <div className="col-12 text-start input-group">
+                <div className="col text-start input-group">
                   <textarea
                     value={content}
-                    className="form-control bg-light border-0"
                     rows={20}
-                    placeholder="Start typing here!"
-                    id="createBlogContent"
+                    className="form-control border-0"
                     onChange={(e) => setContent(e.target.value)}
                   />
                 </div>
-                <div className="mt-3 d-flex justify-content-end">
+                <div className="mt-3 d-flex justify-content-center">
                   <button
-                    className="btn btn-outline-dark"
-                    onClick={handleSubmitBlog}
+                    className="btn btn-outline-danger"
+                    onClick={handleDelete}
                   >
-                    Publish
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-outline-success"
+                    onClick={handleSaveUpdate}>
+                    Save Changes
                   </button>
                 </div>
               </div>
@@ -129,8 +147,8 @@ const Compose = () => {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 
-export default Compose;
+export default EditPost;
