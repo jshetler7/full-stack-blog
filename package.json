@@ -24,6 +24,8 @@
     "css-loader": "^6.3.0",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
+    "form-data": "^4.0.0",
+    "mailgun.js": "^7.0.3",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",

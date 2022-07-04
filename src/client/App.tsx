@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import EditBlog from "./views/EditBlog";
 import AuthorSpec from "./views/AuthorSpec";
 import Donate from "./views/Donate"
+import Contact from "./views/Contact";
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
           <Donate />
         </Elements>
         } />
+      <Route path='/contact' element={<Contact />} />
       
       </Routes>
       </BrowserRouter>

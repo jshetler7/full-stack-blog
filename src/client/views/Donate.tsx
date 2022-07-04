@@ -47,11 +47,13 @@ const Donate = (props: DonateProps) => {
               className="form-control"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder="Full Name"
             />
             <input
               className="form-control mt-3"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              placeholder="Amount"
             />
             <CardElement className="form-control mt-3" />
             <button className="btn btn-outline-light mt-3" onClick={handleSubmit}>
