@@ -45,6 +45,18 @@ const Navbar = () => {
             Compose
           </a>
         </li>
+        <li className="nav-item">
+          <a href="/donate" className="nav-link text-light font-italic">
+            <i className="fa fa-cubes mr-3 text-light fa-fw"></i>
+            Donate
+          </a>
+        </li>
+        <li className="nav-item">
+          <a href="/contact" className="nav-link text-light font-italic">
+            <i className="fa fa-cubes mr-3 text-light fa-fw"></i>
+            Contact
+          </a>
+        </li>
       </ul>
     </div>
   );
