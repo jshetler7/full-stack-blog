@@ -17,13 +17,13 @@ const Home = () => {
               <p>This is a blog app. Why are you here? Make an account or login and tell us!</p>
               <Link 
               to={'/login'}
-              className="btn btn-outline-success col-2 me-2"
+              className="btn btn-outline-success col-3 col-md-2 me-2"
               >
                 Login
               </Link>
               <Link 
               to={'/register'}
-              className="btn btn-outline-primary col-2"
+              className="btn btn-outline-primary col-3 col-md-2"
               >
                 Register
               </Link>
