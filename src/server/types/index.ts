@@ -1,17 +1,26 @@
-export interface Authors {
-    id: number;
+export interface BaseAuthor {
+    id: string;
+    password: string;
+    email: string;
     name: string;
     username: string;
-    email: string;
-    _created: Date | string;
-    _updated: Date | string;
 };
+
+export interface NewAuthor extends BaseAuthor {}
+export interface Author extends BaseAuthor{
+    roles: string[];
+}
+
+export interface Payload {
+    id: string;
+    roles: string[];
+}
 
 export interface Blogs {
     id: number;
     title: string;
     content: string;
-    authorid: number;
+    authorid: string;
     _created: Date | string;
     _updated: Date | string;
 };

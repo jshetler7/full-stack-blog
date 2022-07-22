@@ -12,7 +12,20 @@ CREATE TABLE Blogs (
 	FOREIGN KEY (authorid) REFERENCES Authors(id));
     
 ALTER TABLE Blogs ADD FOREIGN KEY (authorid) REFERENCES Authors(id);
-ALTER TABLE Blogs ALTER COLUMN content VARCHAR
+ALTER TABLE Blogs MODIFY authorid CHAR(60);
+ALTER TABLE Authors ADD password CHAR(60);
+ALTER TABLE Authors MODIFY email VARCHAR(128) UNIQUE;
+ALTER TABLE Authors MODIFY password CHAR(60) AFTER username;
+ALTER TABLE Authors ADD roles VARCHAR(128) DEFAULT "[\"author\"]" AFTER email;
+SELECT * FROM Authors;
+SELECT * FROM Blogs;
+SELECT * FROM BlogTags;
+DELETE BlogTags FROM BlogTags JOIN Blogs ON Blogs.id = BlogTags.blogid JOIN Authors ON Authors.id = Blogs.authorid WHERE Blogid=7 AND authorid=3 OR roles='admin';
+SELECT * FROM Blogs JOIN Authors ON Authors.id = Blogs.authorid WHERE Blogs.id=9 AND authorid=2 OR roles LIKE '%admin%';
+
+ALTER TABLE Authors modify id char(36);
+ALTER TABLE Blogs DROP FOREIGN KEY blogs_ibfk_1;
+ALTER TABLE Blogs MODIFY content 
 
 DROP TABLE IF EXISTS Authors;
 CREATE TABLE Authors (

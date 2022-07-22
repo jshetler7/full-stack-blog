@@ -1,17 +1,16 @@
 import { Query } from "..";
+import { NewAuthor, Author } from "../../types"
 
-const getAll = () => Query("SELECT * FROM authors");
-const getOne = (id: number) => Query("SELECT * FROM authors WHERE id=?", [id]);
-const create = (name: string, id: number) => Query("INSERT INTO authors (name, id) VALUES (?, ?)", [name, id]);
-const update = (name: string, id: number) => Query("UPDATE authors SET name=? WHERE id=?", [name, id]);
-const destroy = (id: number) => Query("DELETE FROM authors WHERE id=?", [id]);
+const getAll = () => Query("SELECT * FROM Authors");
+const getByEmail = (email: string) => Query<Author[]>("SELECT * FROM Authors WHERE email=?", [email]);
+const create = (newAuthor: NewAuthor) => Query("INSERT INTO Authors SET ?", [newAuthor]);
+const update = (name: string, id: number) => Query("UPDATE Authors SET name=? WHERE id=?", [name, id]);
+const destroy = (id: number) => Query("DELETE FROM Authors WHERE id=?", [id]);
 
-const getInfo = () => Query("SELECT (name, id) FROM authors")
+
 
 export default {
-    getAll, 
-    getOne, 
-    create, 
-    update, 
-    destroy
+    getAll,
+    getByEmail, 
+    create
 };

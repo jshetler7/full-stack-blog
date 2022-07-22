@@ -1,5 +1,5 @@
 import * as express from 'express';
-import db_tags from '../database/queries/tags';
+import db_tags from '../../database/queries/tags';
 const router = express.Router();
 
 router.get('/', async (req, res) => {

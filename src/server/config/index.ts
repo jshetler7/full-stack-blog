@@ -20,3 +20,8 @@ export default {
     }
     
 };
+
+export const jwt_config = {
+    secret: process.env.JWT_SECRET!,
+    expiration: process.env.JWT_EXPIRATION!
+};

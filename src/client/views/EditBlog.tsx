@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { BlogsWithAuthor, Authors, Hashtags } from "../types";
 import { v4 as uuidv4 } from 'uuid';
+import { apiService } from "../services/apiService";
 
 const EditPost = () => {
   const [blogs, setBlogs] = useState<BlogsWithAuthor>();
@@ -17,41 +18,40 @@ const EditPost = () => {
   const nav = useNavigate();
 
   useEffect(() => {
-    fetch("/api/authors")
-      .then((res) => res.json())
-      .then((data) => setAuthors(data))
-      .catch((e) => console.error(e));
+    apiService('/api/authors', 'GET', setAuthors)
+    .catch(err => console.error(err));
 
-    fetch(`/api/blogs/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    apiService(`/api/blogs/${id}`)
+    .then((data) => {
         setBlogs(data);
         setAuthorId(data.authorid);
         setContent(data.content);
         setTitle(data.title);
-      })
-      .catch((e) => console.error(e));
-
-    fetch("/api/tags")
-      .then((res) => res.json())
-      .then(data => setTags(data))
-      .catch(e => console.error(e));
-  }, []);
-
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    if (!confirm("Are you SURE you want to delete this blog?")) return;
-
-    fetch(`/api/blogs/${id}`, {
-      method: "DELETE",
     })
-      .then((res) => res.json())
-      .then((data) => {
-        nav("/collection");
-      })
-      .catch((e) => console.error(e));
-  };
+    .catch(err => console.error(err));
+
+    apiService('/api/tags', 'GET', setTags)
+    .catch(err => console.error(err));
+    // fetch("/api/authors")
+    //   .then((res) => res.json())
+    //   .then((data) => setAuthors(data))
+    //   .catch((e) => console.error(e));
+
+    // fetch(`/api/blogs/${id}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setBlogs(data);
+    //     setAuthorId(data.authorid);
+    //     setContent(data.content);
+    //     setTitle(data.title);
+    //   })
+    //   .catch((e) => console.error(e));
+
+    // fetch("/api/tags")
+    //   .then((res) => res.json())
+    //   .then(data => setTags(data))
+    //   .catch(e => console.error(e));
+  }, []);
 
   const handleSaveUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -59,23 +59,26 @@ const EditPost = () => {
     if (!authorid) return alert('Fill out the author selector!');
     if (!content) return alert('Fill out the blog content!!');
 
-    fetch(`/api/blogs/${id}`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ authorid, content })
-    })
-      .then(res => res.json())
-      .then(data => {
-        nav(`/collection/${id}`);
-      })
-      .catch(e => console.error(e));
+    apiService(`/api/blogs/${id}`, 'PUT', { authorid, content})
+    .then(data => nav(`/collection/${id}`))
+    .catch(err => console.error(err));
+    // fetch(`/api/blogs/${id}`, {
+    //   method: "PUT",
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ authorid, content })
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     nav(`/collection/${id}`);
+    //   })
+    //   .catch(e => console.error(e));
   };
 
   return (
     <div className="container">
-      <h3 className="text-light text-start">Blog</h3>
+      <h3 className="text-light text-start">Bloggr</h3>
       <section className="row justify-content-center mt-5">
         <div className="card col-12 col-md-10 shadow-lg">
           <div className="card-body">
@@ -130,12 +133,6 @@ const EditPost = () => {
                   />
                 </div>
                 <div className="mt-3 d-flex justify-content-center">
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </button>
                   <button
                     className="btn btn-outline-success"
                     onClick={handleSaveUpdate}>

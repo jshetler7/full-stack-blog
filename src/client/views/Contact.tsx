@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiService } from "../services/apiService";
 
 const Contact = () => {
   const [from, setFrom] = useState<string>("");
@@ -11,16 +12,22 @@ const Contact = () => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ from, subject, message }),
+    apiService('/api/contact', 'POST', { from, subject, message })
+    .then(result => {
+      console.log(result);
+      nav('/');
     })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        nav('/');
-  })
+    .catch(err => console.log(err));
+  //   fetch("/api/contact", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ from, subject, message }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //       nav('/');
+  // })
   };
 
   return (

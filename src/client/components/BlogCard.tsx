@@ -16,7 +16,7 @@ const BlogCard = (props: { blog: BlogsWithAuthor }) => {
         />
         <div className="card-body">
             <div className="row">
-              <h5 className="card-title">{blog.title}</h5>
+              <h5 className="card-title" style={{minHeight: '50px'}}>{blog.title}</h5>
             </div>
           <Link to={`/collection/${blog.id}`} style={{ textDecoration: "none" }}>
           <div className="row">

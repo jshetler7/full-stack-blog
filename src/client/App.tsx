@@ -14,6 +14,9 @@ import EditBlog from "./views/EditBlog";
 import AuthorSpec from "./views/AuthorSpec";
 import Donate from "./views/Donate"
 import Contact from "./views/Contact";
+import Login from "./views/Login";
+import Private from './components/Private'
+import Register from "./views/Register";
 
 
 const App = () => {
@@ -26,7 +29,6 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/collection" element={<Collection />} />
       <Route path="/collection/:id" element={<CollectionSpec />} />
-      <Route path="/collection/authors/:id" element={<AuthorSpec />} />
       <Route path="/collection/:id/edit" element={<EditBlog />} />
       <Route path="/compose" element={<Compose />} />
       <Route path="/donate" element={
@@ -35,6 +37,16 @@ const App = () => {
         </Elements>
         } />
       <Route path='/contact' element={<Contact />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+					path="/collection/authors/:id"
+					element={
+						<Private>
+							<AuthorSpec />
+						</Private>
+					}
+				/>
       
       </Routes>
       </BrowserRouter>

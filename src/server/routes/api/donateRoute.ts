@@ -1,6 +1,6 @@
 import * as express from 'express';
 import Stripe from 'stripe';
-import config from '../config';
+import config from '../../config';
 
 //@ts-ignore
 const stripe = new Stripe(config.stripe.secret, { apiVersion: '2020-08-27'});

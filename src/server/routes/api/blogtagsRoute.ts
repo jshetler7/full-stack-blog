@@ -1,5 +1,5 @@
 import * as express from 'express';
-import db_blogtags from '../database/queries/blogtags';
+import db_blogtags from '../../database/queries/blogtags';
 const router = express.Router();
 
 
@@ -37,5 +37,16 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: "Jared broke something"});
     }
 })
+
+// router.put('/:id', async (req, res) => {
+//     try {
+//         const id = Number(req.params.id);
+//         const { content, authorid } = req.body;
+//         await db_blogtags.update(id, { content, authorid });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({ message: "Jared broke something"});
+//     }
+// })
 
 export default router;

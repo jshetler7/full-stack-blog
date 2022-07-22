@@ -1,13 +1,22 @@
 import React from "react";
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
+
+    const nav = useNavigate();
+
     const [active, setActive] = useState(true);
 
     const menuExpand = (e: React.MouseEvent<HTMLInputElement>) => {
         setActive(!active);        
     };
+
+    const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+      localStorage.setItem('token', '');
+      nav('/login');
+    }
 
   return (
     <div className={`vertical-nav col-12 col-md-6 ${active === true && "active"}`} id="sidebar">
@@ -28,34 +37,40 @@ const Navbar = () => {
 
       <ul className="nav flex-column mb-0">
         <li className="nav-item">
-          <a href="/" className="nav-link text-light font-italic">
+          <Link to={"/"} className="nav-link text-light font-italic">
             <i className="fa fa-th-large mr-3 text-light fa-fw"></i>
             Home
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a href="/collection" className="nav-link text-light font-italic">
+          <Link to={"/collection"} className="nav-link text-light font-italic">
             <i className="fa fa-address-card mr-3 text-light fa-fw"></i>
             Collection
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a href="/compose" className="nav-link text-light font-italic">
+          <Link to={"/compose"} className="nav-link text-light font-italic">
             <i className="fa fa-cubes mr-3 text-light fa-fw"></i>
             Compose
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a href="/donate" className="nav-link text-light font-italic">
+          <Link to={"/donate"} className="nav-link text-light font-italic">
             <i className="fa fa-cubes mr-3 text-light fa-fw"></i>
             Donate
-          </a>
+          </Link>
         </li>
         <li className="nav-item">
-          <a href="/contact" className="nav-link text-light font-italic">
+          <Link to={"/contact"} className="nav-link text-light font-italic">
             <i className="fa fa-cubes mr-3 text-light fa-fw"></i>
             Contact
-          </a>
+          </Link>
+        </li>
+        <li className="nav-item">
+          <button className="btn btn-light" onClick={handleLogout}>
+            <i className="fa fa-cubes mr-3 fa-fw"></i>
+            Logout
+          </button>
         </li>
       </ul>
     </div>

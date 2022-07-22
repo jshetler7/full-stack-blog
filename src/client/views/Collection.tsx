@@ -2,24 +2,28 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Blogs, BlogsWithAuthor } from "../types";
 import BlogCard from "../components/BlogCard";
+import { apiService } from "../services/apiService";
 
 const Collection = () => {
 
 const [blogs, setBlogs] = useState<BlogsWithAuthor[]>([]);
 
 useEffect(() => {
-  (async () => {
-    const res = await fetch("/api/blogs");
-    const allBlogs = await res.json();
-    setBlogs(allBlogs);
-  })();
+  apiService('/api/blogs')
+  .then(data => setBlogs(data))
+  .catch(err => console.log(err));
+  // (async () => {
+  //   const res = await fetch("/api/blogs");
+  //   const allBlogs = await res.json();
+  //   setBlogs(allBlogs);
+  // })();
 }, []);
 
 
 return(
     <main className="container">
     <h3 className="text-light text-start">
-            Blog
+            Bloggr
             </h3>
     <section className="row mt-5 justify-content-center">
       <section className="col-md-6">
