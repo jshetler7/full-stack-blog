@@ -19,7 +19,7 @@ const AuthorSpec = () => {
         nav('/login');
       });
     }, []);
-
+//@ts-ignore
     const handleDelete = deleteId => {  
       if (!confirm("Are you SURE you want to delete this blog?")) return;
   
