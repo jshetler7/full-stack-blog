@@ -25,7 +25,7 @@ SELECT * FROM Blogs JOIN Authors ON Authors.id = Blogs.authorid WHERE Blogs.id=9
 
 ALTER TABLE Authors modify id char(36);
 ALTER TABLE Blogs DROP FOREIGN KEY blogs_ibfk_1;
-ALTER TABLE Blogs MODIFY content 
+
 
 DROP TABLE IF EXISTS Authors;
 CREATE TABLE Authors (
